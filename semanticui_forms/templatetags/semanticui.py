@@ -16,7 +16,7 @@ def semanticui(form):
         errors_on_separate_row = False
         error_row = '<tr><td colspan="2">%s</td></tr>'
         help_text_html = '<span class="helptext">%s</span>'
-        normal_row = '<div class="field">%(label)s%(field)s%(help_text)s</div>'
+        normal_row = '<div class="field $(field_error_class)s">%(label)s%(field)s%(help_text)s</div>'
         row_ender = '</td></tr>'
         html_class_attr = ''
 
@@ -34,12 +34,16 @@ def semanticui(form):
             if "ChoiceField" in field_class_name or 'MultipleChoiceField' in field_class_name:
                 field.widget.attrs['class'] = "ui dropdown"
             elif 'BooleanField' in field_class_name:
-                normal_row = '<div class="field"><div class="ui checkbox">%(field)s%(label)s</div></div>'
+                normal_row = '<div class="field $(field_error_class)s"><div class="ui checkbox">%(field)s%(label)s</div></div>'
                 field.widget.attrs['class'] = 'hidden'
             elif 'DateField' in field_class_name or 'DateTimeField' in field_class_name:
-                normal_row = '<div class="field">%(label)s<div class="ui left icon input"><i class="calendar icon"></i>%(field)s</div></div>'
+                normal_row = '<div class="field $(field_error_class)s">%(label)s<div class="ui left icon input"><i class="calendar icon"></i>%(field)s</div></div>'
             elif 'URLField' in field_class_name:
-                normal_row = '<div class="field">%(label)s<div class="ui labeled input"><div class="ui label">http(s)://</div>%(field)s</div></div>'
+                normal_row = '<div class="field $(field_error_class)s">%(label)s<div class="ui labeled input"><div class="ui label">http(s)://</div>%(field)s</div></div>'
+
+            field_error_class = ''
+            if field.errors:
+                field_error_class = 'error'
 
             css_classes = bf.css_classes()
             # Create a 'class="..."' attribute if the row should have any
@@ -68,6 +72,7 @@ def semanticui(form):
                 'help_text': help_text,
                 'html_class_attr': html_class_attr,
                 'field_name': bf.html_name,
+                'field_error_class' field_error_class,
             })
 
         if top_errors:
