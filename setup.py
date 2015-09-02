@@ -4,7 +4,7 @@ from distutils.core import setup
 setup(
     name = 'semanticui_forms',
     packages = ['semanticui_forms'],
-    version = '0.1.2',
+    version = '0.1.3',
     description = 'Django forms extension for Semantic UI.',
     author = 'Daniels Pitkevics',
     author_email = 'daniels.pitkevics@gmail.com',
